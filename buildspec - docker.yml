@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  variables:
+    JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
+    DOCKER_REGISTRY_URL: "304987092631.dkr.ecr.us-east-1.amazonaws.com/my-app"
+    
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+      docker: 18
+    commands:
+      - echo Entered the install phase...
+      - apt-get update -y
+    finally:
+      - echo This always runs even if the update or install command fails 
+  pre_build:
+    commands:
+      - echo Entered the pre_build phase...
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+    finally:
+      - echo This always runs even if the login command fails 
+  build:
+    commands:
+      - echo Entered the build phase...
+      - echo Build started on `date`
+      - mvn clean package
+      - docker build -t myapp .
+    finally:
+      - echo This always runs even if the install command fails
+  post_build:
+    commands:
+      - echo Entered the post_build phase...
+      - docker tag myapp:latest ${DOCKER_REGISTRY_URL}:myapp
+      - docker push ${DOCKER_REGISTRY_URL}:myapp
+      - echo Build completed on `date`
+cache:
+  paths:
+    - '/root/.m2/**/*'
