@@ -4,10 +4,7 @@ env:
   variables:
     JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
     DOCKER_REGISTRY_URL: "304987092631.dkr.ecr.us-east-1.amazonaws.com/my-app"
-  parameter-store:
-    LOGIN_PASSWORD: /CodeBuild/mi-capiq-dev/dockerLoginPassword
-    LOGIN_USERNAME: /CodeBuild/mi-capiq-dev/dockerLoginUsername
-
+    
 phases:
   install:
     runtime-versions:
@@ -28,6 +25,7 @@ phases:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
+      - mvn clean package
       - docker build -t myapp .
     finally:
       - echo This always runs even if the install command fails
