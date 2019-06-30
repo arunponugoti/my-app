@@ -5,7 +5,7 @@ env:
     JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
     ARTIFACTORY_URL: "https://artifactory-use-nonprod.cicd.spglobal.com/artifactory"
     ARTIFACTORY_USER: "parun"
-    ARTIFACTORY_MVN_REPO: "https://artifactory-use-nonprod.cicd.spglobal.com/artifactory/anurag_test_delete"
+    ARTIFACTORY_MVN_REPO: "https://artifactory-use-nonprod.cicd.spglobal.com/artifactory/libs-release"
     
   parameter-store:  
     ARTIFACTORY_API_KEY: "ARTIFACTORY_CREDENTIALS"
