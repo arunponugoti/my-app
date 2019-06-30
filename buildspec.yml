@@ -21,7 +21,7 @@ phases:
   pre_build:
     commands:
       - echo Entered the pre_build phase...
-      - docker login –u $LOGIN_USERNAME –p $LOGIN_PASSWORD
+      - $(aws ecr get-login --no-include-email --region us-east-1)
     finally:
       - echo This always runs even if the login command fails 
   build:
