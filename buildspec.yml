@@ -10,6 +10,9 @@ env:
 
 phases:
   install:
+    runtime-versions:
+      java: openjdk8
+      docker: 18
     commands:
       - echo Entered the install phase...
       - apt-get update -y
