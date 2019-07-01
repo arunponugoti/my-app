@@ -1,52 +1,11 @@
-version: 0.2
+version: 0.1
 
-env:
-  variables:
-    JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
-    ARTIFACTORY_URL: "https://artifactory-use-nonprod.cicd.spglobal.com/artifactory"
-    ARTIFACTORY_USER: "parun"
-    ARTIFACTORY_MVN_REPO: "https://artifactory-use-nonprod.cicd.spglobal.com/artifactory/libs-release"
-    
-  parameter-store:  
-    ARTIFACTORY_API_KEY: "ARTIFACTORY_CREDENTIALS"
-    
 phases:
-  install:
-    runtime-versions:
-      java: openjdk8
-    commands:
-      - echo Entered the install phase...
-      - wget https://jcenter.bintray.com/org/apache/maven/apache-maven/3.3.9/apache-maven-3.3.9-bin.tar.gz
-      - tar xzvf apache-maven-3.3.9-bin.tar.gz -C /opt/
-      - export PATH=/opt/apache-maven-3.3.9/bin:$PATH
-      - wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.12.1/jfrog-cli-linux-amd64/jfrog
-      - chmod +x jfrog
-    finally:
-      - echo This always runs even if the update or install command fails 
-  pre_build:
-    commands:
-      - echo Entered the pre_build phase...
-      - ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_API_KEY
-      - sed -i -e 's|ARTIFACTORY_USER|${ARTIFACTORY_USER}|g' settings.xml && sed -i -e 's|ARTIFACTORY_PASSWORD|${ARTIFACTORY_API_KEY}|g' settings.xml && sed -i -e 's|ARTIFACTORY_MVN_REPO|${ARTIFACTORY_MVN_REPO}|g' settings.xml
-    finally:
-      - echo This always runs even if the pre-build fails 
   build:
     commands:
-      - echo Entered the build phase...
-      - echo Build started on `date`
-      - mvn -s settings.xml -f pom.xml compile
-      - mvn -s settings.xml -f pom.xml package
-    finally:
-      - echo This always runs even if the install command fails
-  post_build:
-    commands:
-      - echo Entered the post_build phase...
       - echo Build completed on `date`
-      - ./jfrog rt u "*.war" anurag_test_delete-virtual --build-name=my-app-jfrog --build-number=$CODEBUILD_BUILD_ID --flat=false
-      - ./jfrog rt bce my-app-jfrog $CODEBUILD_BUILD_ID
-      - ./jfrog rt bp my-app-jfrog $CODEBUILD_BUILD_ID
-      
+      - mvn package
+
 artifacts:
-  type: zip
   files:
-    - 'target/*war'
+    - '**/*'
