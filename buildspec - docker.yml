@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
-    DOCKER_REGISTRY_URL: "304987092631.dkr.ecr.us-east-1.amazonaws.com/my-app"
+    DOCKER_REGISTRY_URL: "210934280793.dkr.ecr.us-east-1.amazonaws.com/my-app"
     
 phases:
   install:
