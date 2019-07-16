@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+Resources:
+- TargetService:
+    Type: AWS::ECS::Service
+    Properties:
+      TaskDefinition: "<TASK_DEFINITION>"
+      LoadBalancerInfo:
+        ContainerName: myapp
+        ContainerPort: 8080
+      PlatformVersion: LATEST
+      NetworkConfiguration:
+        awsvpcConfiguration:
+          subnets:
+          - subnet-3371083c
+          securityGroups:
+          - sg-93920edf
+          assignPublicIp: ENABLED
+		 
