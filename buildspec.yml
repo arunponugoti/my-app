@@ -23,7 +23,7 @@ phases:
       - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - IMAGE_URI="${DOCKER_REGISTRY_URL}:${TAG}"
     finally:
-      - echo This always runs even if the login command fails 
+      - echo This runs even if the login command fails 
   build:
     commands:
       - echo Entered the build phase...
