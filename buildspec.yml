@@ -19,8 +19,7 @@ phases:
     commands:
       - echo Entered the pre_build phase...
       - $(aws ecr get-login --no-include-email --region us-east-1)
-      - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-      - IMAGE_URI="${DOCKER_REGISTRY_URL}:${TAG}"
+      
     finally:
       - echo This runs even if the login command fails 
   build:
@@ -28,18 +27,16 @@ phases:
       - echo Entered the build phase...
       - echo Build started on `date`
       - mvn clean package
-      - docker build -t "$IMAGE_URI" .
+      - docker build -t myapp .
     finally:
       - echo This always runs even if the install command fails
   post_build:
     commands:
       - echo Entered the post_build phase...
-      - docker push "$IMAGE_URI"
-      - printf '[{"name":"myapp","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+      - docker push myapp
       - echo Build completed on `date`
       
 artifacts:
   files:
     - taskdef.json
     - appspec.yml
-    - images.json
