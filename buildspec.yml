@@ -13,7 +13,6 @@ phases:
     commands:
       - echo Entered the install phase...
       - apt-get update -y
-      - apt-get install telnet -y
     finally:
       - echo This always runs even if the update or install command fails 
   pre_build:
@@ -30,7 +29,6 @@ phases:
       - echo Build started on `date`
       - mvn clean package
       - docker build -t "$IMAGE_URI" .
-      - telnet artifactory-use-prod.cicd.spglobal.com 443
     finally:
       - echo This always runs even if the install command fails
   post_build:
