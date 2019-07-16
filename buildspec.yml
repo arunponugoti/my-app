@@ -28,7 +28,7 @@ phases:
       - echo Entered the build phase...
       - echo Build started on `date`
       - mvn clean package
-      - docker build -tag "$IMAGE_URI" .
+      - docker build -t "$IMAGE_URI" .
     finally:
       - echo This always runs even if the install command fails
   post_build:
