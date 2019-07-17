@@ -33,6 +33,7 @@ phases:
   post_build:
     commands:
       - echo Entered the post_build phase...
+      - docker tag myapp:latest ${DOCKER_REGISTRY_URL}:myapp
       - docker push ${DOCKER_REGISTRY_URL}:myapp
       - echo Build completed on `date`
       
