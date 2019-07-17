@@ -29,7 +29,7 @@ phases:
       - ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_API_KEY
       - sed -i -e 's|ARTIFACTORY_MVN_REPO|${ARTIFACTORY_MVN_REPO}|g' settings.xml
     finally:
-      - echo This always runs even if the pre-build fails 
+      - echo This always runs even if pre-build fails 
   build:
     commands:
       - echo Entered the build phase...
