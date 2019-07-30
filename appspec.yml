@@ -16,4 +16,7 @@ Resources:
           securityGroups:
           - sg-93920edf
           assignPublicIp: ENABLED
-		 
+hooks:
+   BeforeAllowTraffic:
+    - location: basic_health_check.sh          
+      timeout: 300
